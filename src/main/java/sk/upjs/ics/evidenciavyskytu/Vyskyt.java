@@ -4,18 +4,18 @@ import java.time.LocalDateTime;
 
 public class Vyskyt {
     
-    private Integer id;
+    private final int id;
     private String meno;
     private String priezvisko;
     private LocalDateTime kedy;
     private String akcia;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
+    public Vyskyt(int id) {
         this.id = id;
+    }
+    
+    public int getId() {
+        return id;
     }
 
     public String getMeno() {
