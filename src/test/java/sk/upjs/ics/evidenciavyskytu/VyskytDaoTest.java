@@ -17,7 +17,7 @@ public class VyskytDaoTest {
     public void pripravData() {
         vyskytDao = new VyskytDao();
         
-        Vyskyt vyskyt = new Vyskyt(1);
+        Vyskyt vyskyt = new Vyskyt();
         vyskyt.setMeno("Judita");
         vyskyt.setPriezvisko("Juskova");
         vyskyt.setAkcia("PAZ1c v P3 - 2.cvicenie");
@@ -34,7 +34,7 @@ public class VyskytDaoTest {
     
     @Test
     public void testVlozVyskyt() {
-        Vyskyt vyskyt = new Vyskyt(2);
+        Vyskyt vyskyt = new Vyskyt();
         vyskyt.setMeno("Erika");
         vyskyt.setPriezvisko("Buffova");
         vyskyt.setAkcia("PAZ1c v P3 - 2.cvicenie");

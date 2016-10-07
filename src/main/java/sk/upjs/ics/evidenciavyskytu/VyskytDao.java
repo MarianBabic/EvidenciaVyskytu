@@ -6,6 +6,7 @@ import java.util.List;
 public class VyskytDao {
 
     private List<Vyskyt> vyskyty;
+    private int maxId = 0;
 
     public VyskytDao() {
         vyskyty = new ArrayList<>();
@@ -16,6 +17,7 @@ public class VyskytDao {
     }
 
     void vlozVyskyt(Vyskyt vyskyt) {
+        vyskyt.setId(++maxId);
         vyskyty.add(vyskyt);
     }
 
