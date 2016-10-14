@@ -1,31 +1,22 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package sk.upjs.ics.evidenciavyskytu;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class VyskytDao {
+/**
+ *
+ * @author student
+ */
+public interface VyskytDao {
 
-    private List<Vyskyt> vyskyty;
-    private int maxId = 0;
+    List<Vyskyt> dajVyskyty();
 
-    public VyskytDao() {
-        vyskyty = new ArrayList<>();
-    }
+    void vlozVyskyt(Vyskyt vyskyt);
     
-    List<Vyskyt> dajVyskyty() {
-        return vyskyty;
-    }
-
-    void vlozVyskyt(Vyskyt vyskyt) {
-        vyskyt.setId(++maxId);
-        vyskyty.add(vyskyt);
-    }
-
-    void vymazVyskyt(int idVyskyt) {
-        for (int i=0; i<vyskyty.size(); i++) {
-            if (vyskyty.get(i).getId()==idVyskyt)
-                vyskyty.remove(vyskyty.get(i));
-        }
-    }
-
+     void vymazVyskyt(int idVyskyt);
+    
 }

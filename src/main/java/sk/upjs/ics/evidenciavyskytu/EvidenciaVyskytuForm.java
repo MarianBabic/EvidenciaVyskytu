@@ -16,7 +16,7 @@ import sun.reflect.annotation.AnnotationParser;
  */
 public class EvidenciaVyskytuForm extends javax.swing.JFrame {
     
-    private VyskytDao vyskytDao = new VyskytDao();
+    private VyskytDao vyskytDao = new PamatovyVyskytDao();
 
     /**
      * Creates new form EvidenciaVyskytuForm
