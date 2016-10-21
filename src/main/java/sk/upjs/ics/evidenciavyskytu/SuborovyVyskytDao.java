@@ -21,16 +21,24 @@ public class SuborovyVyskytDao implements VyskytDao {
         vyskyty = new File("vyskyty.txt");
         suborSId = new File("suborsid.txt");
     }
+    
+    public SuborovyVyskytDao(File vyskyty, File suborsid) {
+        this.vyskyty = vyskyty;
+        this.suborSId = suborsid;
+    }
 
     @Override
     public List<Vyskyt> dajVyskyty() {
         List<Vyskyt> outputList = new ArrayList<>();
         try (Scanner scanner = new Scanner(vyskyty)) {
            while(scanner.hasNextLine()) {
+               
+//           vyskyty.add(new Vyskyt(scanner.nextLine()));
+               
                Scanner scannerRiadka = new Scanner(scanner.nextLine());
                Vyskyt vyskyt = new Vyskyt();
                scannerRiadka.useDelimiter(";");
-               vyskyt.setId(Integer.parseInt(scannerRiadka.next()));
+               vyskyt.setId(scannerRiadka.nextInt());
                vyskyt.setMeno(scannerRiadka.next());
                vyskyt.setPriezvisko(scannerRiadka.next());
                vyskyt.setKedy(LocalDateTime.parse(scannerRiadka.next()));
@@ -52,19 +60,24 @@ public class SuborovyVyskytDao implements VyskytDao {
             Logger.getLogger(SuborovyVyskytDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        try(FileWriter writer = new FileWriter(vyskyty);
+        try(FileWriter writer = new FileWriter(vyskyty, true);
                 PrintWriter pw = new PrintWriter(suborSId)) {
             maxId++;
-           writer.append(Integer.toString(maxId));
-           writer.append(";");
-           writer.append(vyskyt.getMeno());
-           writer.append(";");
-           writer.append(vyskyt.getPriezvisko());
-           writer.append(";");
-           writer.append(vyskyt.getKedy().toString());
-           writer.append(";");
-           writer.append(vyskyt.getAkcia());
-           writer.append("\n");
+            
+            StringBuilder sb = new StringBuilder();
+            sb.append(Integer.toString(maxId));
+            sb.append(";");
+           sb.append(vyskyt.getMeno());
+           sb.append(";");
+           sb.append(vyskyt.getPriezvisko());
+           sb.append(";");
+           sb.append(vyskyt.getKedy().toString());
+           sb.append(";");
+           sb.append(vyskyt.getAkcia());
+           String vyskytString = sb.toString();
+           
+           writer.append(vyskytString + "\n");
+           
            pw.print(maxId);
         } catch (IOException ex) {
             Logger.getLogger(SuborovyVyskytDao.class.getName()).log(Level.SEVERE, null, ex);

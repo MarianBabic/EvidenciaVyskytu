@@ -16,27 +16,31 @@ import sun.reflect.annotation.AnnotationParser;
  */
 public class EvidenciaVyskytuForm extends javax.swing.JFrame {
     
-    private VyskytDao vyskytDao = new PamatovyVyskytDao();
+//    private VyskytDao vyskytDao = new SuborovyVyskytDao();
+    private VyskytListModel vyskytListModel;
+    private AkciaVyskytuComboBoxModel akciaVyskytuComboBoxModel;
 
     /**
      * Creates new form EvidenciaVyskytuForm
      */
     public EvidenciaVyskytuForm() {
+        vyskytListModel = new VyskytListModel();
+        akciaVyskytuComboBoxModel = new AkciaVyskytuComboBoxModel();
         initComponents();
-        
-        zobrazVyskyty();
+//        zobrazVyskyty();
     }
     
-    private void zobrazVyskyty() {
-         List<Vyskyt> vyskyty = vyskytDao.dajVyskyty();
-        
-        String[] poleVyskytov = new String[vyskyty.size()];
-        for (int i=0; i<vyskyty.size(); i++) {
-            poleVyskytov[i] = vyskyty.get(i).toString();
-        }
-                
-        vyskytyList.setListData(poleVyskytov);
-    }
+//    private void zobrazVyskyty() {
+//         List<Vyskyt> vyskyty = vyskytDao.dajVyskyty();
+//        
+//        String[] poleVyskytov = new String[vyskyty.size()];
+//        for (int i=0; i<vyskyty.size(); i++) {
+//            poleVyskytov[i] = vyskyty.get(i).toString();
+//        }
+//                
+////        vyskytyList.setListData(poleVyskytov);
+//        vyskytyList.setModel(vyskytListModel);
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,17 +55,13 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
         vyskytyList = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        nazovAkcieTextField = new javax.swing.JTextField();
         menoTextField = new javax.swing.JTextField();
         pridatButton = new javax.swing.JButton();
+        akcieVyskytuComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        vyskytyList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        vyskytyList.setModel(vyskytListModel);
         jScrollPane1.setViewportView(vyskytyList);
 
         jLabel1.setText("Akcia:");
@@ -72,6 +72,13 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
         pridatButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pridatButtonActionPerformed(evt);
+            }
+        });
+
+        akcieVyskytuComboBox.setModel(akciaVyskytuComboBoxModel);
+        akcieVyskytuComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                akcieVyskytuComboBoxActionPerformed(evt);
             }
         });
 
@@ -89,11 +96,11 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nazovAkcieTextField)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(menoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(pridatButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(pridatButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(akcieVyskytuComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -102,7 +109,7 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(nazovAkcieTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(akcieVyskytuComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -119,7 +126,8 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
     private void pridatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pridatButtonActionPerformed
         
         Vyskyt vyskyt = new Vyskyt();
-        String akcia = nazovAkcieTextField.getText();
+//        String akcia = nazovAkcieTextField.getText();
+        String akcia = (String) akcieVyskytuComboBox.getSelectedItem();
         String meno = menoTextField.getText();
         String[] split = meno.split(" ");
         meno = split[0];
@@ -133,9 +141,14 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
         vyskyt.setAkcia(akcia);
         vyskyt.setKedy(LocalDateTime.now());
         
-        vyskytDao.vlozVyskyt(vyskyt);
-        zobrazVyskyty();
+        vyskytListModel.pridajVyskyt(vyskyt);
+//        vyskytDao.vlozVyskyt(vyskyt);
+//        zobrazVyskyty();
     }//GEN-LAST:event_pridatButtonActionPerformed
+
+    private void akcieVyskytuComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_akcieVyskytuComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_akcieVyskytuComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,12 +186,12 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> akcieVyskytuComboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField menoTextField;
-    private javax.swing.JTextField nazovAkcieTextField;
     private javax.swing.JButton pridatButton;
-    private javax.swing.JList<String> vyskytyList;
+    private javax.swing.JList<Vyskyt> vyskytyList;
     // End of variables declaration//GEN-END:variables
 }
