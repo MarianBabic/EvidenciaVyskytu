@@ -8,12 +8,11 @@ public class PamatovyVyskytDao implements VyskytDao {
     private List<Vyskyt> vyskyty;
     private int maxId = 0;
 
-   
-   public PamatovyVyskytDao() {
+    public PamatovyVyskytDao() {
         vyskyty = new ArrayList<>();
     }
-    
-   @Override
+
+    @Override
     public List<Vyskyt> dajVyskyty() {
         return vyskyty;
     }
@@ -24,9 +23,19 @@ public class PamatovyVyskytDao implements VyskytDao {
     }
 
     public void vymazVyskyt(int idVyskyt) {
-        for (int i=0; i<vyskyty.size(); i++) {
-            if (vyskyty.get(i).getId()==idVyskyt)
+        for (int i = 0; i < vyskyty.size(); i++) {
+            if (vyskyty.get(i).getId() == idVyskyt) {
                 vyskyty.remove(vyskyty.get(i));
+            }
+        }
+    }
+
+    @Override
+    public void upravVyskyt(Vyskyt vyskyt) {
+        for (int i = 0; i < vyskyty.size(); i++) {
+            if (vyskyty.get(i).getId() == vyskyt.getId()) {
+                vyskyty.set(i, vyskyt);
+            }
         }
     }
 

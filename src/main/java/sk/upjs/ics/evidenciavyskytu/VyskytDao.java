@@ -16,7 +16,9 @@ public interface VyskytDao {
     List<Vyskyt> dajVyskyty();
 
     void vlozVyskyt(Vyskyt vyskyt);
-    
-     void vymazVyskyt(int idVyskyt);
-    
+
+    void vymazVyskyt(int idVyskyt);
+
+    void upravVyskyt(Vyskyt vyskyt);
+
 }

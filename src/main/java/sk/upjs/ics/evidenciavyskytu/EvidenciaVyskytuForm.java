@@ -15,7 +15,7 @@ import sun.reflect.annotation.AnnotationParser;
  * @author student
  */
 public class EvidenciaVyskytuForm extends javax.swing.JFrame {
-    
+
 //    private VyskytDao vyskytDao = new SuborovyVyskytDao();
     private VyskytListModel vyskytListModel;
     private AkciaVyskytuComboBoxModel akciaVyskytuComboBoxModel;
@@ -29,7 +29,7 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
         initComponents();
 //        zobrazVyskyty();
     }
-    
+
 //    private void zobrazVyskyty() {
 //         List<Vyskyt> vyskyty = vyskytDao.dajVyskyty();
 //        
@@ -41,7 +41,6 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
 ////        vyskytyList.setListData(poleVyskytov);
 //        vyskytyList.setModel(vyskytListModel);
 //    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,6 +74,7 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
             }
         });
 
+        akcieVyskytuComboBox.setEditable(true);
         akcieVyskytuComboBox.setModel(akciaVyskytuComboBoxModel);
         akcieVyskytuComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,7 +124,7 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pridatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pridatButtonActionPerformed
-        
+
         Vyskyt vyskyt = new Vyskyt();
 //        String akcia = nazovAkcieTextField.getText();
         String akcia = (String) akcieVyskytuComboBox.getSelectedItem();
@@ -135,19 +135,28 @@ public class EvidenciaVyskytuForm extends javax.swing.JFrame {
         for (int i = 1; i < split.length; i++) {
             priezvisko = priezvisko + " " + split[i];
         }
-                
+
         vyskyt.setMeno(meno);
         vyskyt.setPriezvisko(priezvisko.trim());
         vyskyt.setAkcia(akcia);
         vyskyt.setKedy(LocalDateTime.now());
-        
+
         vyskytListModel.pridajVyskyt(vyskyt);
 //        vyskytDao.vlozVyskyt(vyskyt);
 //        zobrazVyskyty();
     }//GEN-LAST:event_pridatButtonActionPerformed
 
     private void akcieVyskytuComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_akcieVyskytuComboBoxActionPerformed
-        // TODO add your handling code here:
+        System.out.println("Combo box action performed: " + evt.getActionCommand());
+        int selectedIndex = akcieVyskytuComboBox.getSelectedIndex();
+        System.out.println("selected index: " + selectedIndex);
+        if ("comboBoxEdited".equals(evt.getActionCommand())) {
+            String selectedItem = (String) akciaVyskytuComboBoxModel.getSelectedItem();
+            System.out.println("selected item: " + selectedItem);
+            akciaVyskytuComboBoxModel.addOrChangeAkcia(selectedItem);
+        } else if (selectedIndex > -1) {
+            akciaVyskytuComboBoxModel.setPredchadzajuciVyber(selectedIndex);
+        }
     }//GEN-LAST:event_akcieVyskytuComboBoxActionPerformed
 
     /**
