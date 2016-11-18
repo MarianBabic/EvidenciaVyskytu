@@ -41,6 +41,7 @@ public class MysqlVyskytDao implements VyskytDao {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         simpleJdbcInsert.withTableName("vyskyt");
         simpleJdbcInsert.usingGeneratedKeyColumns("id");
+        simpleJdbcInsert.usingColumns("meno", "priezvisko", "kedy", "skola");
         Map<String, Object> hodnoty = new HashMap<>();
         hodnoty.put("meno", vyskyt.getMeno());
         hodnoty.put("priezvisko", vyskyt.getPriezvisko());
